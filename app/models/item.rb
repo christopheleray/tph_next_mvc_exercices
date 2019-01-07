@@ -16,6 +16,9 @@ class Item < ApplicationRecord
   validates :original_price, presence: true, numericality: true, allow_nil: false
   validates :has_discount, default: false
   validates :discount_percentage, numericality: { less_than_or_equalt_to: 100 }, allow_nil: true
+
+  scope :sorted_by_price, -> { order("original_price ASC") }
+  scope :newest_first, lambda { order("created_at DESC") }
   
   def price
     has_discount ? original_price - ( original_price * discount_percentage / 100) : original_price
