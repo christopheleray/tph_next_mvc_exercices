@@ -13,7 +13,13 @@
 #
 
 class Item < ApplicationRecord
+  validates :original_price, presence: true
   def price
-    80.00
+    has_discount ? original_price - ( original_price * discount_percentage / 100) : original_price
+  end
+
+  def self.average_price
+    @items = Item.all.map {|i| i.price }
+    @average =  @items.sum.fdiv(@items.size)
   end
 end
