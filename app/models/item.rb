@@ -20,7 +20,8 @@ class Item < ApplicationRecord
 
   scope :sorted_by_price, -> { order("original_price ASC") }
   scope :newest_first, lambda { order("created_at DESC") }
-  scope :list_discount, lambda { where(has_discount: true) }
+  scope :with_discount, lambda { where(has_discount: true) }
+  scope :without_discount, lambda { where(has_discount: false) }
   
   def price
     has_discount ? (original_price - ( original_price * discount_percentage / 100)).round(2) : original_price

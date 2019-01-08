@@ -35,9 +35,52 @@ RSpec.describe Item, type: :model do
         it { expect(item.price).to eq(80.00) }
       end
       context 'when the item has no discount' do
-        let(:item) {build(:item_without_discount, original_price: 100)}
+        let(:item) { build(:item_without_discount, original_price: 100) }
 
         it { expect(item.price).to eq(100.00) }
+      end
+    end
+
+    context 'Validation test' do
+      it 'is valid with valid attributes' do
+        item = build(:item)
+        expect(item).to be_valid
+      end    
+      it 'is not valid without attributes' do 
+        item = Item.new
+        expect(item).to_not be_valid 
+      end
+      it 'is valid with original_price not null' do 
+        item = Item.new(original_price: 10)
+        expect(item).to be_valid
+      end
+      it 'is not valid with original_price as a string' do
+        item = Item.new(original_price: 'test string')
+        expect(item).to_not be_valid
+      end
+      it 'is not valid with original_price to be nil' do 
+        item  = Item.new(original_price: nil)
+        expect(item).to_not be_valid
+      end
+      it 'is not valid with has_discount to be nil' do 
+        item = Item.new(has_discount: nil)
+        expect(item).to_not be_valid
+      end
+      it 'is valid with discount_percentage between 0 and 100' do
+        item = build(:item, discount_percentage: 50)
+        expect(item).to be_valid
+      end
+      it 'is not valid with discount_percentage greater than 100' do 
+        item = build(:item, discount_percentage: 200)
+        expect(item).to_not be_valid
+      end
+      it 'is not valid with discount_percentage less than 0' do
+        item = build(:item, discount_percentage: -20) 
+        expect(item).to_not be_valid
+      end 
+      it 'is not valid with discount_percentage to be a string' do 
+        item = build(:item, discount_percentage: "string")
+        expect(item).to_not be_valid
       end
     end
   end   
