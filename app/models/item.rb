@@ -15,13 +15,15 @@
 class Item < ApplicationRecord
   validates :original_price, presence: true, numericality: true, allow_nil: false
   validates :has_discount, default: false
-  validates :discount_percentage, numericality: { less_than_or_equalt_to: 100 }, allow_nil: true
+  validates :discount_percentage, 
+            numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   scope :sorted_by_price, -> { order("original_price ASC") }
   scope :newest_first, lambda { order("created_at DESC") }
+  scope :list_discount, lambda { where(has_discount: true) }
   
   def price
-    has_discount ? original_price - ( original_price * discount_percentage / 100) : original_price
+    has_discount ? (original_price - ( original_price * discount_percentage / 100)).round(2) : original_price
   end
 
   def self.average_price
