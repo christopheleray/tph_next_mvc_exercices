@@ -1,3 +1,4 @@
+<%= render('layouts/shared/flash_messages') %>
 <% @items.each do |item| %>
   <%= form_for item, url: administration_item_path(item), method: :patch  do |f| %>
   <tr>

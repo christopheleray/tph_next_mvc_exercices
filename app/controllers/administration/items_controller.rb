@@ -14,17 +14,22 @@ module Administration
     def update
       item = Item.find(params[:id])
       puts "-----new discount percentage is : #{params[:item][:discount_percentage]}-----"
+      
       if params[:item][:discount_percentage] != 0
         item.update_attributes(item_params)
         item.has_discount = true
-        item.save
-        flash[:notice]
         else  
           item.update_attributes(item_params)
           item.has_discount = false
-          item.save
-          flash[:notice]
       end
+      
+      if item.valid?
+        item.save
+        flash[:notice] = "Product updated successfuly" 
+        else 
+          flash[:alert] = item.errors.full_messages
+      end
+
       redirect_to administration_items_path
     end
 
