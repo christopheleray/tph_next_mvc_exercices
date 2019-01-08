@@ -40,13 +40,13 @@ RSpec.describe Item, type: :model do
       end
     end
 
-    describe 'Validation test' do
+    context 'Validation test' do
       it 'is valid with valid attributes' do
-        item = Item.new(original_price: '50')
+        item = build(:item)
         expect(item).to be_valid
       end    
       it 'is not valid without attributes' do 
-        item = Item.new 
+        item = Item.new
         expect(item).to_not be_valid 
       end
       it 'is valid with original_price not null' do 
@@ -66,19 +66,19 @@ RSpec.describe Item, type: :model do
         expect(item).to_not be_valid
       end
       it 'is valid with discount_percentage between 0 and 100' do
-        item = Item.new(original_price: 10, discount_percentage: 50)
+        item = build(:item, discount_percentage: 50)
         expect(item).to be_valid
       end
       it 'is not valid with discount_percentage greater than 100' do 
-        item = Item.new(discount_percentage: 200, original_price: 10)
+        item = build(:item, discount_percentage: 200)
         expect(item).to_not be_valid
       end
       it 'is not valid with discount_percentage less than 0' do
-        item = Item.new(discount_percentage: -20, original_price: 10) 
+        item = build(:item, discount_percentage: -20) 
         expect(item).to_not be_valid
       end 
       it 'is not valid with discount_percentage to be a string' do 
-        item = Item.new(original_price: 10, discount_percentage: "string")
+        item = build(:item, discount_percentage: "string")
         expect(item).to_not be_valid
       end
     end
