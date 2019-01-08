@@ -20,4 +20,11 @@ RSpec.describe Administration::ItemsController, type: :controller do
       it { expect(response).to have_http_status(:success) }
     end
   end
+
+  describe "Price methode" do 
+    context 'when item has a discount'
+    it "should return the discounted price" do
+      item = build(:item, has_discount: true)
+      expect(item.price).to eq(original_price)
+    end
 end
