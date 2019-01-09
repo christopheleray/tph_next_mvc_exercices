@@ -28,7 +28,7 @@ class Item < ApplicationRecord
   end
 
   def self.average_price
-    Item.all.map(&:price).sum / Item.count
+   Item.count > 0 ? Item.all.map(&:price).sum / Item.count : nil
   end
 
 end
