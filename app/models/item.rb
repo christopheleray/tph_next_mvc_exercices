@@ -28,8 +28,7 @@ class Item < ApplicationRecord
   end
 
   def self.average_price
-    @items = Item.all.map { |i| i.price }
-    @average = @items.sum.fdiv(@items.size)
+    Item.all.map(&:price).sum / Item.count
   end
 
 end
