@@ -28,6 +28,10 @@ RSpec.describe Item, type: :model do
       it { is_expected.to have_db_column(:name).of_type(:string).with_options(presence: true) }
     end
 
+    context 'when testing associations' do
+      it { is_expected.to have_many(:categories) } 
+  end
+
     context 'validation test' do
       let(:item) { Item.new }
       let(:item_attributes) { build(:item) } 
