@@ -13,6 +13,9 @@
 #
 
 class Item < ApplicationRecord
+
+  has_many :category_item_connections
+  has_many :category, through: :category_item_connections
   validates :name, presence: true, length: { minimum: 3 }
   validates :original_price, presence: true, numericality: true, allow_nil: false
   validates :has_discount, default: false
