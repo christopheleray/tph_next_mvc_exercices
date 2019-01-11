@@ -28,23 +28,9 @@ RSpec.describe Item, type: :model do
       it { is_expected.to have_db_column(:name).of_type(:string).with_options(presence: true) }
     end
 
-    describe 'Price' do
-      context 'when the item has a discount' do
-        let(:item) { build(:item_with_discount, original_price: 100.00, discount_percentage: 20) }
-
-        it { expect(item.price).to eq(80.00) }
-      end
-      context 'when the item has no discount' do
-        let(:item) { build(:item_without_discount, original_price: 100) }
-
-        it { expect(item.price).to eq(100.00) }
-      end
-    end
-
     context 'validation test' do
-        let(:item) { Item.new }
-        let(:item_attributes) { build(:item) } 
-
+      let(:item) { Item.new }
+      let(:item_attributes) { build(:item) } 
 
       it 'is valid with valid attributes' do
         expect(item_attributes).to be_valid
@@ -66,28 +52,28 @@ RSpec.describe Item, type: :model do
         expect(item).to_not be_valid
       end
       it 'is not valid with has_discount to be nil' do 
-        item.original_price = nil
+        item_attributes.original_price = nil
         expect(item).to_not be_valid
       end
       it 'is valid with discount_percentage between 0 and 100' do
-        item = build(:item, discount_percentage: 50)
-        expect(item).to be_valid
+        item_attributes.discount_percentage =  50
+        expect(item_attributes).to be_valid
       end
       it 'is not valid with discount_percentage greater than 100' do 
-        item = build(:item, discount_percentage: 200)
-        expect(item).to_not be_valid
+        item_attributes.discount_percentage = 200
+        expect(item_attributes).to_not be_valid
       end
       it 'is not valid with discount_percentage less than 0' do
-        item = build(:item, discount_percentage: -20) 
-        expect(item).to_not be_valid
+        item_attributes.discount_percentage = -20
+        expect(item_attributes).to_not be_valid
       end 
       it 'is not valid with discount_percentage to be a string' do 
-        item = build(:item, discount_percentage: "string")
-        expect(item).to_not be_valid
+        item_attributes.discount_percentage = 'string'
+        expect(item_attributes).to_not be_valid
       end
       it 'is not valid with an empty name' do 
-        item = build(:item, name: nil)
-        expect(item).to_not be_valid
+        item_attributes.name = nil
+        expect(item_attributes).to_not be_valid
       end
     context 'add a discount price' do
       it 'will match price.item ' do 

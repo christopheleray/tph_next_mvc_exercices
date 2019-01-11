@@ -20,43 +20,33 @@ RSpec.describe Administration::ItemsController, type: :controller do
       it { expect(response).to have_http_status(:success) }
     end
   end
+  
+  let(:item1) { build(:item, :with_discount, original_price: 20, discount_percentage: 50) }
+  let(:item2) { build(:item, :without_discount, original_price: 20) }
 
-  describe '#price' do 
-    before(:context) do
-     @item1 =  build(:item, :with_discount, original_price: 20, has_discount: true, discount_percentage: 50)
-     @item2 =  build(:item, :without_discount, original_price: 20)
-    end
-    
+  describe '#price' do
     context 'when item has no discount' do
       it 'returns the original_price' do
-        expect(@item2.price).to eq(@item2.original_price)
+        expect(item2.price).to eq(item2.original_price)
       end
     end
-
     context 'when item has a discount' do
       it 'returns the discounted price' do
-        expect(@item1.price).to eq(10)
+        expect(item1.price).to eq(10)
       end
     end
   end
 
   describe '.average_price' do
-    before(:context) do 
-     @item1 =  create(:item, :with_discount, original_price: 20, has_discount: true, discount_percentage: 50)
-     @item2 =  create(:item, :without_discount, original_price: 20)
-    end
-
     context 'List of item without discount' do 
       it 'returns average_price ' do
         expect(Item.average_price).to eq(15)
       end
-    end
-    
+    end 
     context 'List of item with discount' do 
       skip('to be done later')
       it '' do
       end  
     end
-
   end
 end
