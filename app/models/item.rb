@@ -13,6 +13,7 @@
 #
 
 class Item < ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
   validates :original_price, presence: true, numericality: true, allow_nil: false
   validates :has_discount, default: false
   validates :discount_percentage, 

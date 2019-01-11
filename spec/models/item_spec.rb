@@ -41,29 +41,32 @@ RSpec.describe Item, type: :model do
       end
     end
 
-    context 'Validation test' do
+    context 'validation test' do
+        let(:item) { Item.new }
+        let(:item_attributes) { build(:item) } 
+
+
       it 'is valid with valid attributes' do
-        item = build(:item)
-        expect(item).to be_valid
+        expect(item_attributes).to be_valid
       end    
       it 'is not valid without attributes' do 
-        item = Item.new
         expect(item).to_not be_valid 
       end
       it 'is valid with original_price not null' do 
-        item = Item.new(original_price: 10)
+        item.original_price = 10
+        item.name = 'test item'
         expect(item).to be_valid
       end
       it 'is not valid with original_price as a string' do
-        item = Item.new(original_price: 'test string')
+        item.original_price = 'string'
         expect(item).to_not be_valid
       end
       it 'is not valid with original_price to be nil' do 
-        item  = Item.new(original_price: nil)
+        item.original_price = nil
         expect(item).to_not be_valid
       end
       it 'is not valid with has_discount to be nil' do 
-        item = Item.new(has_discount: nil)
+        item.original_price = nil
         expect(item).to_not be_valid
       end
       it 'is valid with discount_percentage between 0 and 100' do
@@ -82,6 +85,17 @@ RSpec.describe Item, type: :model do
         item = build(:item, discount_percentage: "string")
         expect(item).to_not be_valid
       end
+      it 'is not valid with an empty name' do 
+        item = build(:item, name: nil)
+        expect(item).to_not be_valid
+      end
+    context 'add a discount price' do
+      it 'will match price.item ' do 
+        item = build(:item_without_discount, original_price: 20)
+        puts "----#{item.original_price}, #{item.has_discount}, #{item.discount_percentage}---"
+        expect { item.update_attributes(discount_percentage: 50, has_discount: true) }.to change(item, :price).from(20).to(10)
+      end
     end
   end   
+end
 end

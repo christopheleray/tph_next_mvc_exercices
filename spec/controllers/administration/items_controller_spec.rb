@@ -21,37 +21,39 @@ RSpec.describe Administration::ItemsController, type: :controller do
     end
   end
 
-  describe 'Price methode' do 
-    before(:each) do
+  describe '#price' do 
+    before(:context) do
      @item1 =  build(:item, :with_discount, original_price: 20, has_discount: true, discount_percentage: 50)
      @item2 =  build(:item, :without_discount, original_price: 20)
     end
     
     context 'when item has no discount' do
-      it 'should return the original_price' do
+      it 'returns the original_price' do
         expect(@item2.price).to eq(@item2.original_price)
       end
     end
 
     context 'when item has a discount' do
-      it 'shoudl return the discounted price' do
+      it 'returns the discounted price' do
         expect(@item1.price).to eq(10)
       end
     end
   end
 
-  describe 'Item.average_price method' do
-    before(:all) do 
+  describe '.average_price' do
+    before(:context) do 
      @item1 =  create(:item, :with_discount, original_price: 20, has_discount: true, discount_percentage: 50)
      @item2 =  create(:item, :without_discount, original_price: 20)
     end
 
     context 'List of item without discount' do 
-      it 'should return average_price ' do
+      it 'returns average_price ' do
         expect(Item.average_price).to eq(15)
       end
     end
+    
     context 'List of item with discount' do 
+      skip('to be done later')
       it '' do
       end  
     end
