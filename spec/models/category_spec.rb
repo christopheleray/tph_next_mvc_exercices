@@ -11,7 +11,7 @@ RSpec.describe Category, type: :model do
       it 'returns an OK response' do 
         expect(item).to respond_to(:categories)
       end
-      it 'checks item;categories.count ' do
+      it 'checks item categories.count ' do
         skip
         puts "-----#{item.categories.count}-----"
         x = item.categories

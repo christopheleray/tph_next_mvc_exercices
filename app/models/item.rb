@@ -24,9 +24,8 @@ class Item < ApplicationRecord
   scope :without_discount, lambda { where(has_discount: false) }
   
   def price
-    has_discount ? (original_price - ( original_price * discount_percentage / 100)).round(2) : original_price
-    # has_discount ? (original_price - ( 1 * discount_percentage / 100)).round(2) : original_price
-
+    has_discount ? (original_price * ( 1 - discount_percentage.to_f / 100)).round(2) : original_price
+   # has_discount ? (original_price - ( original_price * discount_percentage / 100)).round(2) : original_price
   end
   
   def self.average_price
