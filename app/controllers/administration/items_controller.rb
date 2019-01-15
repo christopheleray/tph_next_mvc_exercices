@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Administration
+  before_action :authenticated_admin!
+  
   class ItemsController < AdministrationController
     def index
       @items = Item.sorted_by_price

@@ -15,6 +15,5 @@ Rails.application.routes.draw do
     get '/', to: 'items#index'
 
     resources :items
-    resources :users
   end
 end
