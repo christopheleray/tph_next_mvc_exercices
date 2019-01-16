@@ -2,7 +2,6 @@
 
 module Administration
   class ItemsController < AdministrationController
-    
     def index
       @items = Item.sorted_by_price
     end
@@ -18,7 +17,7 @@ module Administration
       redirect_to administration_items_path
     end
 
-  private
+    private
 
     def item_params
       params.require(:item).permit(:discount_percentage)
@@ -26,7 +25,7 @@ module Administration
 
     def item_valid?(item)
       if item.valid?
-         item.save
+        item.save
         flash[:notice] = "Product updated successfuly"
       else
         flash[:alert] = item.errors.full_messages
@@ -37,7 +36,7 @@ module Administration
       if params[:item][:discount_percentage] != 0
         item.update(item_params)
         item.has_discount = true
-      else  
+      else
         item.update(item_params)
         item.has_discount = false
       end

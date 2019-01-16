@@ -11,7 +11,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 class Item < ApplicationRecord
-  has_many :category_item_connections
+  has_many :category_item_connections, dependent: :destroy
   has_many :categories, through: :category_item_connections
   validates :name, presence: true, length: { minimum: 3 }
   validates :original_price, presence: true, numericality: true, allow_nil: false
@@ -22,15 +22,12 @@ class Item < ApplicationRecord
   scope :newest_first, lambda { order("created_at DESC") }
   scope :with_discount, lambda { where(has_discount: true) }
   scope :without_discount, lambda { where(has_discount: false) }
-  
+
   def price
     has_discount ? (original_price * ( 1 - discount_percentage.to_f / 100)).round(2) : original_price
-   # has_discount ? (original_price - ( original_price * discount_percentage / 100)).round(2) : original_price
-  end
-  
-  def self.average_price
-   count > 0 ? all.map(&:price).sum / count : nil
-   # Item.count > 0 ? Item.all.map(&:price).sum / Item.count : nil
   end
 
+  def self.average_price
+    count.positive? ? all.map(&:price).sum / count : nil
+  end
 end
