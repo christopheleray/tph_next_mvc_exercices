@@ -2,12 +2,13 @@
 
 Rails.application.routes.draw do
   root 'items#index'
+  get 'home/landing_page'
   devise_for :admins
   devise_for :users, controllers: { registrations: 'users/registrations' }
-  # get 'categories/index'
-  # get 'categories/show'
-  # get 'categories/create'
-  # get 'categories/update'
+  get 'categories/index'
+  get 'categories/show'
+  get 'categories/create'
+  get 'categories/update'
   resources :users
   resources :items, only: %i[index show]
 
