@@ -2,6 +2,7 @@
 
 module Administration
   class ItemsController < AdministrationController
+    
     def index
       @items = Item.sorted_by_price
     end
