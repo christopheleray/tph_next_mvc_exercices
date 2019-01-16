@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+CategoryItemConnection.delete_all
 Item.delete_all
 Category.delete_all
 
