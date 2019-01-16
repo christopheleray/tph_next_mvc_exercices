@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen_string_literal: true.
 
 class CreateCategoryItemConnections < ActiveRecord::Migration[5.2]

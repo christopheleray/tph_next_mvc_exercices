@@ -28,60 +28,71 @@ RSpec.describe Item, type: :model do
       it { is_expected.to have_db_column(:name).of_type(:string).with_options(presence: true) }
     end
 
-    context 'validation test' do
+    describe 'validation test' do
       let(:item) { Item.new }
-      let(:item_attributes) { build(:item) } 
+      let(:item_attributes) { build(:item) }
 
       it 'is valid with valid attributes' do
         expect(item_attributes).to be_valid
-      end    
-      it 'is not valid without attributes' do 
-        expect(item).to_not be_valid 
       end
-      it 'is valid with original_price not null' do 
+      it 'is not valid without attributes' do
+        expect(item).not_to be_valid
+      end
+      it 'is valid with original_price not null' do
         item.original_price = 10
         item.name = 'test item'
         expect(item).to be_valid
       end
       it 'is not valid with original_price as a string' do
         item.original_price = 'string'
-        expect(item).to_not be_valid
+        expect(item).not_to be_valid
       end
-      it 'is not valid with original_price to be nil' do 
+      it 'is not valid with original_price to be nil' do
         item.original_price = nil
-        expect(item).to_not be_valid
+        expect(item).not_to be_valid
       end
-      it 'is not valid with has_discount to be nil' do 
+      it 'is not valid with has_discount to be nil' do
         item_attributes.original_price = nil
-        expect(item).to_not be_valid
+        expect(item).not_to be_valid
       end
       it 'is valid with discount_percentage between 0 and 100' do
-        item_attributes.discount_percentage =  50
+        item_attributes.discount_percentage = 50
         expect(item_attributes).to be_valid
       end
-      it 'is not valid with discount_percentage greater than 100' do 
+      it 'is not valid with discount_percentage greater than 100' do
         item_attributes.discount_percentage = 200
-        expect(item_attributes).to_not be_valid
+        expect(item_attributes).not_to be_valid
       end
       it 'is not valid with discount_percentage less than 0' do
         item_attributes.discount_percentage = -20
-        expect(item_attributes).to_not be_valid
-      end 
-      it 'is not valid with discount_percentage to be a string' do 
+        expect(item_attributes).not_to be_valid
+      end
+      it 'is not valid with discount_percentage to be a string' do
         item_attributes.discount_percentage = 'string'
-        expect(item_attributes).to_not be_valid
+        expect(item_attributes).not_to be_valid
       end
-      it 'is not valid with an empty name' do 
+      it 'is not valid with an empty name' do
         item_attributes.name = nil
-        expect(item_attributes).to_not be_valid
+        expect(item_attributes).not_to be_valid
       end
-    context 'add a discount price' do
-      it 'will match price.item ' do 
+    end
+
+    describe 'item update price' do
+      it 'matches price.item ' do
         item = build(:item_without_discount, original_price: 20)
         puts "----#{item.original_price}, #{item.has_discount}, #{item.discount_percentage}---"
         expect { item.update(discount_percentage: 50, has_discount: true) }.to change(item, :price).from(20).to(10)
       end
     end
-  end   
-end
+
+    describe '.average_price' do
+      let(:item1) { build_stubbed(:item, :with_discount, original_price: 20, discount_percentage: 50) }
+      let(:item2) { build_stubbed(:item, :without_discount, original_price: 20) }
+
+      it 'returns average_price ' do
+        skip
+        expect(Item.average_price).to eq(15)
+      end
+    end
+  end
 end

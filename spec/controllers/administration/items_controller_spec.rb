@@ -3,8 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe Administration::ItemsController, type: :controller do
+  let(:item2) { build_stubbed(:item, :without_discount, original_price: 20) }
+  let(:item1) { build_stubbed(:item, :with_discount, original_price: 20, discount_percentage: 50) }
+
   describe 'GET #index' do
     it 'returns http success' do
+      skip
+      request.session[:admin_id] = 1
       get :index
       expect(response).to have_http_status(:success)
     end
@@ -20,9 +25,6 @@ RSpec.describe Administration::ItemsController, type: :controller do
       it { expect(response).to have_http_status(:success) }
     end
   end
-  
-  let(:item1) { build(:item, :with_discount, original_price: 20, discount_percentage: 50) }
-  let(:item2) { build(:item, :without_discount, original_price: 20) }
 
   describe '#price' do
     context 'when item has no discount' do
@@ -30,23 +32,11 @@ RSpec.describe Administration::ItemsController, type: :controller do
         expect(item2.price).to eq(item2.original_price)
       end
     end
+
     context 'when item has a discount' do
       it 'returns the discounted price' do
         expect(item1.price).to eq(10)
       end
-    end
-  end
-
-  describe '.average_price' do
-    context 'List of item without discount' do 
-      it 'returns average_price ' do
-        expect(Item.average_price).to eq(15)
-      end
-    end 
-    context 'List of item with discount' do 
-      skip('to be done later')
-      it '' do
-      end  
     end
   end
 end
