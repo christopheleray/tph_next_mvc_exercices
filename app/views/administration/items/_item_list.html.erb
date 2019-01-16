@@ -1,10 +1,11 @@
 <% @items.each do |item| %>
   <%= form_for item, url: administration_item_path(item), method: :patch  do |f| %>
   <tr>
+    <td><%= item.name %></td>
     <td><%= item.original_price %></td>
     <td><%= f.text_field(:discount_percentage, value: item.discount_percentage) %></td>
     <td><%= item.price %></td>
-    <td><%= f.submit 'Modifier' %></td>
+    <td><%= f.submit 'Update' %></td>
   </tr>
   <% end %>
 <% end %>
