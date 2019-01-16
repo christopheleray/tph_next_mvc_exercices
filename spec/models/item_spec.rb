@@ -80,7 +80,6 @@ RSpec.describe Item, type: :model do
     describe 'item update price' do
       it 'matches price.item ' do
         item = build(:item_without_discount, original_price: 20)
-        puts "----#{item.original_price}, #{item.has_discount}, #{item.discount_percentage}---"
         expect { item.update(discount_percentage: 50, has_discount: true) }.to change(item, :price).from(20).to(10)
       end
     end
