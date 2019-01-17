@@ -1,0 +1,11 @@
+hi <%= @user.first_name %>
+Here is the list of our product
+<% Item.all do |item| %>
+  <%= item.name %>
+    <%= item.original_price %>
+    <%= item.discount_percentage %>
+    <%= item.price %>
+    <%= link_to 'Details', item_path(item.id) %>
+<% end %>
+Feel free to visit our website for more details
+See you really soon <%= @user.first_name %>

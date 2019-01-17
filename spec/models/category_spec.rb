@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe Category, type: :model do
   describe 'model instantiation' do
     subject(:new_category) { decribed_class.new }
+
     let(:category) { create(:category) }
     let(:item) { create(:item, :without_discount) }
 
@@ -13,9 +14,9 @@ RSpec.describe Category, type: :model do
         expect(item).to respond_to(:categories)
       end
       it 'follows item link' do
-      item.categories << category
-      expect(item.categories.first.items).to be
-    end
+        item.categories << category
+        expect(item.categories.first.items).to be_truthy
+      end
       it 'checks item categories.count ' do
         skip
         puts "-----#{item.categories.count}-----"

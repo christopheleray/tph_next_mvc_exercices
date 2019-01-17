@@ -17,10 +17,12 @@
         <% end %>
       </li>
       <li class="sidebar-item">
+        <% if admin_signed_in? %>
         <%= link_to destroy_admin_session_path, method: :delete, class: "sidebar-link" do %>
           <span class="align-middle">
             Log out
           </span>
+          <% end %>
         <% end %>
       </li>     
 

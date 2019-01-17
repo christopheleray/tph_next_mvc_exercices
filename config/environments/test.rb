@@ -49,5 +49,5 @@ Rails.application.configure do
     address:              'localhost',
     port:                 1030,
     domain:               'localhost'
-  }
+    }
 end
