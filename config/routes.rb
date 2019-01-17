@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
   root 'items#index'
   get 'home/landing_page'
+  get 'users/send_offer', to: 'users#send_offer'
   devise_for :admins
   devise_for :users, controllers: { registrations: 'users/registrations' }
   get 'categories/index'
