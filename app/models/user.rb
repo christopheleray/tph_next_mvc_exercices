@@ -6,4 +6,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable
+
+  def self.send_offer(user)
+    UserMailer.send_offer(user).deliver_later
+  end
+
 end
