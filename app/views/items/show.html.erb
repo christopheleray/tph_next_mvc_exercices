@@ -1,0 +1,9 @@
+<div class="container jumbotron">
+  <h1>Détails du produit <span><%= @item.name %></span></h1>
+    <p>Orignal Price : <%= @item.original_price%></p>
+    <p>Discount percentage : <%= @item.discount_percentage%></p>
+    <p>Current price : <%=@item.price%></p>
+    <%= link_to 'Back to the list', items_path %>
+</div>
+
+

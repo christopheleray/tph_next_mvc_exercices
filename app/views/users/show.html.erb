@@ -1,0 +1,6 @@
+<div class="container jumbotron">
+  <p>First Name: <%= @user.first_name %></p>
+  <p>Last_name: <%= @user.last_name %></p>
+  <p>email: <%= @user.email %></p>
+  <p><%= link_to 'Send Offer', controller: "users", action: "send_offer", id: @user, class:"btn btn-primary" %></p> 
+</div>

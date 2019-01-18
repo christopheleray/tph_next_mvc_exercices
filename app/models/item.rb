@@ -10,10 +10,24 @@
 #  discount_percentage :integer          default(0)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#
-
 class Item < ApplicationRecord
+  has_many :category_item_connections, dependent: :destroy
+  has_many :categories, through: :category_item_connections
+  validates :name, presence: true, length: { minimum: 3 }
+  validates :original_price, presence: true, numericality: true, allow_nil: false
+  validates :has_discount, default: false
+  validates :discount_percentage,
+            numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
+  scope :sorted_by_price, -> { order("original_price ASC") }
+  scope :newest_first, lambda { order("created_at DESC") }
+  scope :with_discount, lambda { where(has_discount: true) }
+  scope :without_discount, lambda { where(has_discount: false) }
+
   def price
-    80.00
+    has_discount ? (original_price * ( 1 - discount_percentage.to_f / 100)).round(2) : original_price
+  end
+
+  def self.average_price
+    count.positive? ? all.map(&:price).sum / count : nil
   end
 end
