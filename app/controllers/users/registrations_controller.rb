@@ -3,7 +3,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
-  # after_create :send_welcome_email
   # GET /resource/sign_up
   # def new
   #   super
@@ -39,10 +38,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   protected
-
-  def send_welcome_email
-    UserMailer.welcome_email(self).deliver_later
-  end
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
