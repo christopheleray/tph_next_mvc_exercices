@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def send_offer
     user = User.find(params[:id])
-    send_offer(user)
+    User.send_offer(user)
     redirect_to root_path
   end
 end
