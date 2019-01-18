@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  require 'sidekiq/web'
-  mount Sidekiq::Web => '/sidekiq'
+  # sidekiq access with authentification 
+  require "sidekiq/web"
+  mount Sidekiq::Web, at: "/sidekiq"
   root 'items#index'
   get 'home/landing_page'
   get 'users/send_offer', to: 'users#send_offer'
