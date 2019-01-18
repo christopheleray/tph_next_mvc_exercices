@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # sidekiq access with authentification 
+  # sidekiq access with authentification
   require "sidekiq/web"
   mount Sidekiq::Web, at: "/sidekiq"
   root 'items#index'
